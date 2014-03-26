@@ -1,38 +1,38 @@
-%% dijkstra 
-%  dijkstra shortest path algorithm, to replace Matlab's built-in function 
-%  graphshortestpath Based on the algorithm descrition in wikipedia page[1],
-%  using a priority queue. Use array to emulate priority queue. This 
-%  implemetation is about two times slower than Matlab's built-in function 
-%  graphshortestpath. Will be invoked when graphshortestpath is not available.
-% 
-%  [1] http://en.wikipedia.org/wiki/Dijkstra's_algorithm
-%
-%% Syntax
-%   [distance,path,previous] = dijkstra(graph,source)
-%   [distance,path,previous] = dijkstra(graph,source,target)
-%
-%% Description
-%  graph : sparse matrix, nv x nv, adjacency matrix of graph (or triangle 
-%          mesh), elements are weights of adjacent path
-%  source: integer scaler, source node of path. 
-%  target: double array, n x 1, optinal, target node to calculate distance. 
-%          if not provided, will calculate path to all node.
-% 
-%  distance: double array, n x 1, distance from source node to all target
-%            node
-%  path    : cell array, n x 1, each cell is the path from source to node,
-%            which is a double array
-%  previous: double array, n x 1, predecessor nodes of all path, 
-%            predecessor of source node is 0
-%
-%% Contribution
-%  Author : Wen Cheng Feng
-%  Created: 2014/03/21
-%  Revised: 2014/03/24 by Wen, add doc
-% 
-%  Copyright 2014 Computational Geometry Group
-%  Department of Mathematics, CUHK
-%  http://www.lokminglui.com
+//// dijkstra 
+//  dijkstra shortest path algorithm, to replace Matlab's built-in function 
+//  graphshortestpath Based on the algorithm descrition in wikipedia page[1],
+//  using a priority queue. Use array to emulate priority queue. This 
+//  implemetation is about two times slower than Matlab's built-in function 
+//  graphshortestpath. Will be invoked when graphshortestpath is not available.
+// 
+//  [1] http://en.wikipedia.org/wiki/Dijkstra's_algorithm
+//
+//// Syntax
+//   [distance,path,previous] = dijkstra(graph,source)
+//   [distance,path,previous] = dijkstra(graph,source,target)
+//
+//// Description
+//  graph : sparse matrix, nv x nv, adjacency matrix of graph (or triangle 
+//          mesh), elements are weights of adjacent path
+//  source: integer scaler, source node of path. 
+//  target: double array, n x 1, optinal, target node to calculate distance. 
+//          if not provided, will calculate path to all node.
+// 
+//  distance: double array, n x 1, distance from source node to all target
+//            node
+//  path    : cell array, n x 1, each cell is the path from source to node,
+//            which is a double array
+//  previous: double array, n x 1, predecessor nodes of all path, 
+//            predecessor of source node is 0
+//
+//// Contribution
+//  Author : Wen Cheng Feng
+//  Created: 2014/03/21
+//  Revised: 2014/03/24 by Wen, add doc
+// 
+//  Copyright 2014 Computational Geometry Group
+//  Department of Mathematics, CUHK
+//  http://www.lokminglui.com
 
 function [distance,path,previous] = dijkstra(graph,source,target)
 nv = size(graph,1); 
@@ -48,7 +48,7 @@ path = cell(length(target),1);
 
 [cp,ri,val] = sparse_to_csc(graph);
 
-% use array to emulate heap (priority queue)
+// use array to emulate heap (priority queue)
 n = 1;
 heap = zeros(nv,2);
 heap(n,1) = source;

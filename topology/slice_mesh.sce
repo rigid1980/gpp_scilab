@@ -1,34 +1,34 @@
-%% slice_mesh 
-%  Slice mesh open along a collection of edges ee, which usually comes from 
-%  cut_graph(directly), or compute_greedy_homotopy_basis and
-%  compute_homology_basis (need to form edges from closed loops in basis).
-%  ee can form a single closed loops or multiple closed loops. 
-% 
-%
-%% Syntax
-%   [face_new,vertex_new,father] = slice_mesh(face,vertex,ee)
-%
-%% Description
-%  face  : double array, nf x 3, connectivity of mesh
-%  vertex: double array, nv x 3, vertex of mesh
-%  ee: double array, n x 2, a collection of edges, each row is an edge on 
-%      mesh, may not be in consective order. 
-% 
-%  face_new  : double array, nf x 3, connectivity of new mesh after slice
-%  vertex_new: double array, nv' x 3, vertex of new mesh, vertex number is
-%              more than original mesh, since slice mesh will seperate each
-%              vertex on ee to two vertices or more.
-%  father    : double array, nv' x 1, father indicates the vertex on original
-%              mesh that new vertex comes from.
-%
-%% Contribution
-%  Author : Wen Cheng Feng
-%  Created: 2014/03/17
-%  Revised: 2014/03/24 by Wen, add doc
-% 
-%  Copyright 2014 Computational Geometry Group
-%  Department of Mathematics, CUHK
-%  http://www.lokminglui.com
+//// slice_mesh 
+//  Slice mesh open along a collection of edges ee, which usually comes from 
+//  cut_graph(directly), or compute_greedy_homotopy_basis and
+//  compute_homology_basis (need to form edges from closed loops in basis).
+//  ee can form a single closed loops or multiple closed loops. 
+// 
+//
+//// Syntax
+//   [face_new,vertex_new,father] = slice_mesh(face,vertex,ee)
+//
+//// Description
+//  face  : double array, nf x 3, connectivity of mesh
+//  vertex: double array, nv x 3, vertex of mesh
+//  ee: double array, n x 2, a collection of edges, each row is an edge on 
+//      mesh, may not be in consective order. 
+// 
+//  face_new  : double array, nf x 3, connectivity of new mesh after slice
+//  vertex_new: double array, nv' x 3, vertex of new mesh, vertex number is
+//              more than original mesh, since slice mesh will seperate each
+//              vertex on ee to two vertices or more.
+//  father    : double array, nv' x 1, father indicates the vertex on original
+//              mesh that new vertex comes from.
+//
+//// Contribution
+//  Author : Wen Cheng Feng
+//  Created: 2014/03/17
+//  Revised: 2014/03/24 by Wen, add doc
+// 
+//  Copyright 2014 Computational Geometry Group
+//  Department of Mathematics, CUHK
+//  http://www.lokminglui.com
 
 function [face_new,vertex_new,father] = slice_mesh(face,vertex,ee)
 nv = size(vertex,1);
@@ -49,9 +49,9 @@ for i = 1:size(ev,1)
             break;
         end
     end
-    if evr(1) == evr(end) % interior point
+    if evr(1) == evr(end) // interior point
         evr = evr([i0:end-1,1:i0]);
-    else % boundary point
+    else // boundary point
         evr = evr([i0:end,1:i0-1]);
     end
     for j = 2:length(evr)
@@ -68,5 +68,5 @@ for i = 1:size(ev,1)
     end
 end
 vertex_new = [vertex;vertex2];
-% currently father is not correct
+// currently father is not correct
 [face_new,vertex_new,father] = clean_mesh(face_new,vertex_new);

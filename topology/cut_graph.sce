@@ -1,36 +1,36 @@
-%% cut_graph 
-%  Compute a cut graph of mesh, such that surface becomes simply-connected
-%  if slice mesh along the cut-graph. There are two versions: if both face 
-%  and vertex provided, invoke version 1; if only face provided, invoke 
-%  version 2. Version 1 is exact implementation of algorithm 3 in book [1].
-%  Version 2 is translated from David Gu's C++ code of cut graph, which is
-%  much faster then version 1.
-%  Though version 1 takes vertex into consideration, both algorithms do not
-%  generated optimal cut graph (shortest one). In face this problem seems
-%  to be open untill now.
-%
-%% Syntax
-%   ee = cut_graph(face)
-%   ee = cut_graph(face,vertex)
-%
-%% Description
-%  face  : double array, nf x 3, connectivity of mesh
-%  vertex: double array, nv x 3, vertex of mesh
-% 
-%  ee: double array, n x 2, edges in the cut graph, each row is an edge on 
-%      mesh, may not be in consective order. ee's mainly purpose is been 
-%      passed to slice_mesh, which will slice the mesh open along edges in
-%      ee, to form a simply-connected surface
-%
-%% Contribution
-%  Author : Wen Cheng Feng
-%  Created: 2014/03/13
-%  Revised: 2014/03/13 by Wen, implement another cut graph algorithm
-%  Revised: 2014/03/17 by Wen, merge two cut graph algorithm
-% 
-%  Copyright 2014 Computational Geometry Group
-%  Department of Mathematics, CUHK
-%  http://www.lokminglui.com
+//// cut_graph 
+//  Compute a cut graph of mesh, such that surface becomes simply-connected
+//  if slice mesh along the cut-graph. There are two versions: if both face 
+//  and vertex provided, invoke version 1; if only face provided, invoke 
+//  version 2. Version 1 is exact implementation of algorithm 3 in book [1].
+//  Version 2 is translated from David Gu's C++ code of cut graph, which is
+//  much faster then version 1.
+//  Though version 1 takes vertex into consideration, both algorithms do not
+//  generated optimal cut graph (shortest one). In face this problem seems
+//  to be open untill now.
+//
+//// Syntax
+//   ee = cut_graph(face)
+//   ee = cut_graph(face,vertex)
+//
+//// Description
+//  face  : double array, nf x 3, connectivity of mesh
+//  vertex: double array, nv x 3, vertex of mesh
+// 
+//  ee: double array, n x 2, edges in the cut graph, each row is an edge on 
+//      mesh, may not be in consective order. ee's mainly purpose is been 
+//      passed to slice_mesh, which will slice the mesh open along edges in
+//      ee, to form a simply-connected surface
+//
+//// Contribution
+//  Author : Wen Cheng Feng
+//  Created: 2014/03/13
+//  Revised: 2014/03/13 by Wen, implement another cut graph algorithm
+//  Revised: 2014/03/17 by Wen, merge two cut graph algorithm
+// 
+//  Copyright 2014 Computational Geometry Group
+//  Department of Mathematics, CUHK
+//  http://www.lokminglui.com
 
 function ee = cut_graph(face,vertex)
 if nargin == 2
@@ -38,7 +38,7 @@ if nargin == 2
     [edge,eif] = compute_edge(face);
     [I,J,~] = find(amf);
 
-    % edge length of original mesh as weight
+    // edge length of original mesh as weight
     el = zeros(size(I));
     
     for i=1:length(I)
@@ -51,11 +51,11 @@ if nargin == 2
     else
         tree = minimum_spanning_tree(graph);
     end
-%     tree = graphminspantree(amf,'METHOD','Prim','Weights',max(el)-el);
+//     tree = graphminspantree(amf,'METHOD','Prim','Weights',max(el)-el);
     
-    % edge length of dual mesh as weight
-    % dual_el = sqrt(dot(dual_vertex(I,:)-dual_vertex(J,:),dual_vertex(I,:)-dual_vertex(J,:),2));
-    % tree = graphminspantree(amf,'METHOD','Prim','Weights',dual_el);
+    // edge length of dual mesh as weight
+    // dual_el = sqrt(dot(dual_vertex(I,:)-dual_vertex(J,:),dual_vertex(I,:)-dual_vertex(J,:),2));
+    // tree = graphminspantree(amf,'METHOD','Prim','Weights',dual_el);
 
     tree = tree+tree';
     [I,J,~] = find(tree);
@@ -67,19 +67,19 @@ if nargin == 2
 elseif nargin == 1
     [am,amd] = compute_adjacency_matrix(face);
     nf = size(face,1);
-    % use array to emulate queue
+    // use array to emulate queue
     queue = zeros(nf,1);
     queue(1) = 1;
-    qs = 1; % point to queue start
-    qe = 2; % point to queue end
+    qs = 1; // point to queue start
+    qe = 2; // point to queue end
 
     ft = false(nf,1);
     ft(1) = true;
     face4 = face(:,[1 2 3 1]);
 
-    % translated from David Gu's cut graph algorithm
-    % this algorithm will not take geometry into consideration, thus result is
-    % not as visually good as cut_graph, but faster.
+    // translated from David Gu's cut graph algorithm
+    // this algorithm will not take geometry into consideration, thus result is
+    // not as visually good as cut_graph, but faster.
     while qe > qs
         fi = queue(qs);
         qs = qs+1;
@@ -92,7 +92,7 @@ elseif nargin == 1
                     qe = qe+1;
                     ft(sf) = true;
                     am(he(1),he(2)) = -1;
-    %                 am(he(2),he(1)) = 0;
+    //                 am(he(2),he(1)) = 0;
                 end
             end
         end
@@ -100,7 +100,7 @@ elseif nargin == 1
     am((am<0)') = 0;
     G = triu(am>0);
 end
-% prune the graph cut
+// prune the graph cut
 while true
     Gs = full(sum(G,2))+full(sum(G,1))';
     ind = (Gs == 1);

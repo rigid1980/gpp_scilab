@@ -1,9 +1,9 @@
 classdef BinaryHeap
 
     properties (SetAccess = protected)
-        node;   % array, node in the heap
-        priority; % priority of node
-        sz;     % current size of the heap
+        node;   // array, node in the heap
+        priority; // priority of node
+        sz;     // current size of the heap
     end
     methods
         function BH = BinaryHeap(n)
@@ -45,7 +45,7 @@ classdef BinaryHeap
                 index = BH.sz;
             end
             while BH.parent(index) && BH.priority(BH.parent(index)) > BH.priority(index)
-                % parent/child are out of order; swap them
+                // parent/child are out of order; swap them
                 BH = BH.swap(index, BH.parent(index));
                 index = BH.parent(index);        
             end
@@ -70,30 +70,30 @@ classdef BinaryHeap
         end
         function BH = bubbledown(BH)
             index = 1;        
-            % bubble down
+            // bubble down
             while index*2 < BH.sz
-%             while BH.leftchild(index)
-                % which of my children is smaller?
-%                 sc = BH.leftchild(index);        
-%                 rc = BH.rightchild(index);
+//             while BH.leftchild(index)
+                // which of my children is smaller?
+//                 sc = BH.leftchild(index);        
+//                 rc = BH.rightchild(index);
                 sc = index*2;
                 rc = index*2+1;
-                % bubble with the smaller child, if I have a smaller child
+                // bubble with the smaller child, if I have a smaller child
                 if rc < BH.sz && BH.priority(sc) > BH.priority(rc)
                     sc = rc;
                 end
                 if BH.priority(index) > BH.priority(sc)
-%                     BH = BH.swap(index, sc);
+//                     BH = BH.swap(index, sc);
                     BH.node([index,sc]) = BH.node([sc,index]);
                     BH.priority([index,sc]) = BH.priority([sc,index]);
                 else
                     break;
                 end
-                % make sure to update loop counter/index of where last el is put
+                // make sure to update loop counter/index of where last el is put
                 index = sc;
             end
         end
-        % decease the priority of given node with index
+        // decease the priority of given node with index
         function BH = decrease_prioirty(BH,index,priority)
             i = BH.node == index;
             BH.priority(i) = priority;
